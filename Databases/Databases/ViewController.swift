@@ -14,6 +14,12 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         print(FileManager.default.coredataFilePath)
         
+        //        create()
+        let user = read(by: -1)
+        print("end")
+    }
+    
+    fileprivate func create() {
         do {
             try dataService.create(User.self) { user in
                 user.id = Int64(Int.random(in: 0...Int.max))
@@ -23,5 +29,26 @@ class ViewController: UIViewController {
             print(error)
         }
     }
+    
+    fileprivate func read(by id: Int64) -> User? {
+        do {
+            guard let user = try dataService.read(UserFetchRequestsFactory.with(id: id)).first
+            else { return nil }
+            return user
+        } catch (let error) {
+            print(error)
+            return nil
+        }
+    }
 }
+
+import CoreData
+
+struct UserFetchRequestsFactory {
+    static func with(id: Int64) -> NSFetchRequest<User> {
+        User.fetchRequest().with(predicate: .init(format: "id == %lld", id))
+    }
+}
+
+
 
