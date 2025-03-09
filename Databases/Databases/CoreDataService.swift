@@ -33,7 +33,6 @@ final class CoreDataService: CoreDataCRUDable {
         let entity = NSEntityDescription.insertNewObject(forEntityName: type.entityName, into: context) as? T
         guard let entity else { throw DataBaseError.creatingFailed }
         configure(entity)
-        try saveContext()
     }
 
     // MARK: - Read
@@ -47,7 +46,6 @@ final class CoreDataService: CoreDataCRUDable {
         do {
             guard let object = try context.fetch(fetchRequest).first else { return }
             updates(object)
-            try saveContext()
         } catch (let error) { throw DataBaseError.error(error) }
     }
 
@@ -56,7 +54,6 @@ final class CoreDataService: CoreDataCRUDable {
         do {
             guard let object = try context.fetch(fetchRequest).first else { return }
             context.delete(object)
-            try saveContext()
         } catch { throw DataBaseError.error(error) }
     }
 

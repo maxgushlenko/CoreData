@@ -25,8 +25,21 @@ final class CoreDataStack {
     var viewContext: NSManagedObjectContext {
         persistentContainer.viewContext
     }
-    
+        
     func save() {
         try? viewContext.save()
+    }
+    
+    func backgroundContext(name: String? = nil, parent: NSManagedObjectContext? = nil) -> NSManagedObjectContext {
+        var context: NSManagedObjectContext
+        
+        if parent == nil {
+            context = persistentContainer.newBackgroundContext()
+        } else {
+            context = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
+            context.parent = parent
+        }
+        context.name = name
+        return context
     }
 }

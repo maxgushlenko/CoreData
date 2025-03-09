@@ -10,6 +10,16 @@ import CoreData
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
+    class Person {
+        var name: String
+        var age: Int
+        
+        init(name: String, age: Int) {
+            self.name = name
+            self.age = age
+        }
+    }
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         // CoreData path in documents folder
